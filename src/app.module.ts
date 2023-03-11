@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { configValidationSchema } from './config.schema';
+import { LinksModule } from './links/links.module';
+import { WildcardModule } from './wildcard/wildcard.module';
 
 @Module({
   imports: [
@@ -23,14 +22,15 @@ import { configValidationSchema } from './config.schema';
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
-          autoLoadEntities: true,
+          autoLoadEntities: true, //이게 내가 이 파일에 있는 엔티티를 다 볼 수 있게 설정한거임
           synchronize: true,
         };
       },
     }),
-    UsersModule,
+    LinksModule,
+    WildcardModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
