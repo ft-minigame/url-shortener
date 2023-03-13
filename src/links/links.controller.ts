@@ -1,5 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreateLinkDto } from './dto/create-link.dto';
+import { GetLinkDto } from './dto/get-link.dto';
+import { UpdateLinkDto } from './dto/update-link.dto';
 import { Link } from './link.entity';
 import { LinksService } from './links.service';
 
@@ -16,7 +26,15 @@ export class LinksController {
   }
 
   @Delete('/:id')
-  async deleteLink(@Param('id') id: string): Promise<void> {
-    return this.linksService.deleteLink(id);
+  async deleteLink(@Param() getLinkDto: GetLinkDto): Promise<void> {
+    return this.linksService.deleteLink(getLinkDto);
+  }
+
+  @Put('/:id')
+  async updateLink(
+    @Param() getLinkDto: GetLinkDto,
+    @Body() updateLinkDto: UpdateLinkDto,
+  ): Promise<Link> {
+    return this.linksService.updateLink(getLinkDto, updateLinkDto);
   }
 }
